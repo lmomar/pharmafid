@@ -1,0 +1,49 @@
+services:
+    admin.pharmacie:
+        class: AppBundle\Admin\PharmacieAdmin
+        arguments: [~, AppBundle\Entity\Pharmacie,~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Pharmacies}
+        public: true
+    admin.pharmaciegroupe:
+        class: AppBundle\Admin\PharmacieGroupeAdmin
+        arguments: [~, AppBundle\Entity\PharmacieGroupe,~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Groupes}
+        public: true
+    admin.qcm:
+        class: AppBundle\Admin\QcmAdmin
+        arguments: [~, AppBundle\Entity\Qcm,~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Qcm}
+        public: true
+    admin.question:
+        class: AppBundle\Admin\QuestionAdmin
+        arguments: [~, AppBundle\Entity\Question,~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Questions}
+    admin.tablette:
+        class: AppBundle\Admin\TabletteAdmin
+        arguments: [~,AppBundle\Entity\Tablette,~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Liste des tablettes}
+    admin.customer:
+        class: AppBundle\Admin\CustomerAdmin
+        arguments: [~, AppBundle\Entity\Customer, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Consommateurs }
+        public: true
+
+    admin.reponse:
+        class: AppBundle\Admin\ReponseAdmin
+        arguments: [~, AppBundle\Entity\Reponse, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Reponse }
+        public: true
+
+    admin.age_enfant:
+        class: AppBundle\Admin\AgeEnfantAdmin
+        arguments: [~, AppBundle\Entity\AgeEnfant, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Age nfant }
+        public: true

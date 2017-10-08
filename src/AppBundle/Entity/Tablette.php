@@ -1,0 +1,263 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Tablette
+ *
+ * @ORM\Table(name="tablette")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TabletteRepository")
+ */
+class Tablette
+{
+    public function __construct()
+    {
+        $this->creationDate = new \DateTime();
+        $this->etat = false;
+    }
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="marque", type="string", length=255)
+     */
+    private $marque;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="modele", type="string", length=255)
+     */
+    private $modele;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="serie", type="string", length=255)
+     */
+    private $serie;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="page", type="string", length=255,nullable=true)
+     */
+    private $page;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="etat", type="boolean")
+     */
+    private $etat;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    private $creationDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pharmacie")
+     * @ORM\JoinColumn(name="pharmacie_id", referencedColumnName="id")
+     */
+
+    private $pharmacie;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set marque
+     *
+     * @param string $marque
+     *
+     * @return Tablette
+     */
+    public function setMarque($marque)
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * Get marque
+     *
+     * @return string
+     */
+    public function getMarque()
+    {
+        return $this->marque;
+    }
+
+    /**
+     * Set modele
+     *
+     * @param string $modele
+     *
+     * @return Tablette
+     */
+    public function setModele($modele)
+    {
+        $this->modele = $modele;
+
+        return $this;
+    }
+
+    /**
+     * Get modele
+     *
+     * @return string
+     */
+    public function getModele()
+    {
+        return $this->modele;
+    }
+
+    /**
+     * Set serie
+     *
+     * @param string $serie
+     *
+     * @return Tablette
+     */
+    public function setSerie($serie)
+    {
+        $this->serie = $serie;
+
+        return $this;
+    }
+
+    /**
+     * Get serie
+     *
+     * @return string
+     */
+    public function getSerie()
+    {
+        return $this->serie;
+    }
+
+    /**
+     * Set page
+     *
+     * @param string $page
+     *
+     * @return Tablette
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    /**
+     * Get page
+     *
+     * @return string
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param boolean $etat
+     *
+     * @return Tablette
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return bool
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return Tablette
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Set pharmacie
+     *
+     * @param \AppBundle\Entity\Pharmacie $pharmacie
+     *
+     * @return Tablette
+     */
+    public function setPharmacie(\AppBundle\Entity\Pharmacie $pharmacie = null)
+    {
+        $this->pharmacie = $pharmacie;
+
+        return $this;
+    }
+
+    /**
+     * Get pharmacie
+     *
+     * @return \AppBundle\Entity\Pharmacie
+     */
+    public function getPharmacie()
+    {
+        return $this->pharmacie;
+    }
+
+    public function __toString()
+    {
+        return $this->getSerie();
+    }
+}

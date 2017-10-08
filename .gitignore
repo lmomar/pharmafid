@@ -1,0 +1,32 @@
+/web/bundles/
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+/app/phpunit.xml
+/build/
+/vendor/
+/bin/
+/composer.phar
+# Symfony2
+/web/bundles/
+/app/bootstrap.php.cache
+/app/cache/*
+/app/logs/*
+/build/
+/vendor/
+/bin/
+/composer.phar
+composer.lock
+
+# Symfony2 configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+
+
+
+
+# PHPStorm
+.idea/
