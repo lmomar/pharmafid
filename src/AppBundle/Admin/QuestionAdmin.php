@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 class QuestionAdmin extends AbstractAdmin
 {
@@ -63,6 +64,18 @@ class QuestionAdmin extends AbstractAdmin
         $filter
             ->add('question')
             ->add('qcm');
+    }
+
+    protected function configureShowFields(ShowMapper $show)
+    {
+        $show
+            ->add('id')
+            ->add('question')
+            ->add('isFirst',array(),array('label' => 'Premiére question'))
+            ->add('reponse',array(),array('Les réponses'))
+            ->add('creationDate',array(),array('label' => 'Crée le'))
+            ->remove('add')
+            ;
     }
 
 }
