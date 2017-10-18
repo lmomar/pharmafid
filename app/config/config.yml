@@ -10,6 +10,7 @@ imports:
 parameters:
     locale: fr
     pharmacies_images: '%kernel.root_dir%/web/uploads/pharmacies'
+    sonata.user.admin.user.class: AppBundle\Admin\UserAdmin
 
 
 framework:
@@ -65,9 +66,9 @@ doctrine:
             default:
                 auto_mapping: true
                 mappings:
+                    FOSUserBundle: ~
                     ApplicationSonataUserBundle: ~
                     SonataUserBundle: ~
-                    FOSUserBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -106,7 +107,7 @@ sonata_admin:
             user:
                 label: Utilisateurs
                 items:
-                    - application_sonata_user.admin.user
+                    - admin.user
             pharmacie:
                 label:  Pharmacies
                 items:
@@ -126,7 +127,6 @@ fos_user:
     db_driver:      orm # can be orm or odm
     firewall_name:  main
     user_class:     Application\Sonata\UserBundle\Entity\User
-
 
     group:
         group_class:   Application\Sonata\UserBundle\Entity\Group
@@ -148,7 +148,7 @@ sonata_user:
         route:                page_slug
         parameters:           { path: / }
     class:                  # Entity Classes
-        user:               Application\Sonata\UserBundle\Entity\User
+        user:               AppBundle\Entity\User
         group:              Application\Sonata\UserBundle\Entity\Group
     admin:
         user:

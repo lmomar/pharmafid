@@ -43,7 +43,6 @@ class PharmacieAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter->add('nom')->add('pharmacieGroupe');
-
     }
 
 
