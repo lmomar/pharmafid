@@ -16,7 +16,7 @@ class PharmacieAdmin extends AbstractAdmin
             ->add('nom', 'text')
             ->add('ville', 'text')
             ->add('adresse', 'text')
-            ->add('imageFile','file')
+            ->add('imageFile','file',array('required' => false))
             ->add('pharmacieGroupe')
             ;
     }
@@ -42,7 +42,8 @@ class PharmacieAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $filter->add('nom');
+        $filter->add('nom')->add('pharmacieGroupe');
+
     }
 
 

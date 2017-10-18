@@ -11,6 +11,7 @@ parameters:
     locale: fr
     pharmacies_images: '%kernel.root_dir%/web/uploads/pharmacies'
 
+
 framework:
     #esi: ~
     translator: { fallbacks: ['fr'] }
@@ -37,7 +38,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
-
+    form_themes:
+        - 'SonataCoreBundle:Form:datepicker.html.twig'
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -100,6 +102,7 @@ sonata_admin:
                 items:
                     - admin.customer
                     - admin.age_enfant
+                    - admin.theme
             user:
                 label: Utilisateurs
                 items:
@@ -147,6 +150,9 @@ sonata_user:
     class:                  # Entity Classes
         user:               Application\Sonata\UserBundle\Entity\User
         group:              Application\Sonata\UserBundle\Entity\Group
+    admin:
+        user:
+            class: Application\Sonata\UserBundle\Admin\UserAdmin
     profile:
         default_avatar: 'bundles/sonatauser/default_avatar.png' # Default avatar displayed if user doesn't have one
         # As in SonataAdminBundle's dashboard

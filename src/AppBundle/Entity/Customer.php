@@ -20,7 +20,6 @@ class Customer
     {
         $this->themes = new ArrayCollection();
         $this->coupons = new ArrayCollection();
-        $this->ageEnfants = new ArrayCollection();
         $this->creationDate = new \DateTime();
     }
 
@@ -60,14 +59,14 @@ class Customer
     private $creationDate;
 
     /**
-     * @ORM\OneToOne(targetEntity="Application\Sonata\UserBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="Application\Sonata\UserBundle\Entity\User",cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AgeEnfant")
-     * @ORM\JoinColumn(name="age_enfant_id",referencedColumnName="id")
+     * @ORM\JoinColumn(name="age_enfant_id",referencedColumnName="id",nullable=true)
      */
     private $ageEnfants;
 
@@ -86,6 +85,10 @@ class Customer
      */
     private $coupons;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pharmacie")
+     */
+    private $pharmacie;
 
     /**
      * Get id
@@ -308,5 +311,34 @@ class Customer
     public function getCreationDate()
     {
         return $this->creationDate;
+    }
+
+    public function __toString()
+    {
+        return $this->getUser() ? $this->getUser()->getUsername() : '';
+    }
+
+    /**
+     * Set pharmacie
+     *
+     * @param \AppBundle\Entity\Pharmacie $pharmacie
+     *
+     * @return Customer
+     */
+    public function setPharmacie(\AppBundle\Entity\Pharmacie $pharmacie = null)
+    {
+        $this->pharmacie = $pharmacie;
+
+        return $this;
+    }
+
+    /**
+     * Get pharmacie
+     *
+     * @return \AppBundle\Entity\Pharmacie
+     */
+    public function getPharmacie()
+    {
+        return $this->pharmacie;
     }
 }

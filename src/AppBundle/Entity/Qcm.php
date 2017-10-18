@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Qcm
  *
@@ -46,6 +46,7 @@ class Qcm
      * @var \DateTime
      *
      * @ORM\Column(name="dateFin", type="datetime")
+     * @Assert\Expression("this.getDateFin() > this.getDateDebut()",message="La date de fin doit etre superieure à la date de début")
      */
     private $dateFin;
 
@@ -235,6 +236,6 @@ class Qcm
 
     public function __toString()
     {
-        return $this->getTitre();
+        return $this->getTitre()? $this->getTitre() : '';
     }
 }

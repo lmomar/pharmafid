@@ -21,8 +21,8 @@ class QcmAdmin extends AbstractAdmin
     {
         $form
             ->add('titre', 'text')
-            ->add('dateDebut', 'date')
-            ->add('dateFin', 'date')
+            ->add('dateDebut', 'sonata_type_date_picker')
+            ->add('dateFin', 'sonata_type_date_picker')
             ->add('pharmacie');
     }
 

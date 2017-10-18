@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Question
@@ -215,5 +217,30 @@ class Question
     public function __toString()
     {
         return $this->getQuestion() ? $this->getQuestion() : '';
+    }
+    /**
+     * @param ExecutionContextInterface $context
+     * @param $payload
+     * @Assert\Callback()
+     */
+    public function validateFirstQuestion(ExecutionContextInterface $context){
+        $questions = $this->getQcm()->getQuestions();
+        $questionFound= array();
+        var_dump($questions);die();
+        foreach ($questions as $q){
+            if($q->isFirst){
+                $questionFound = $q;
+                var_dump($q->getId());die();
+                break;
+            }
+        }
+        //var_dump($this->getId());die();
+        var_dump($questionFound->getId());die();
+        if($this->getIsFirst() && !empty($questionFound) && $questionFound->getId() !== $this->getId()){
+            $context->buildViolation('La question ID:' . $questionFound->getId() . ' est la première question')
+                ->atPath('firstQuestion')
+                ->addViolation()
+            ;
+        }
     }
 }

@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Theme
 {
+    public function __construct()
+    {
+        $this->dateCreation = new \DateTime();
+    }
+
     /**
      * @var int
      *
@@ -92,6 +97,11 @@ class Theme
     public function getDateCreation()
     {
         return $this->dateCreation;
+    }
+
+    public function __toString()
+    {
+        return $this->getNom()? $this->getNom() : '';
     }
 }
 

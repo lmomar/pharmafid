@@ -8,7 +8,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class UserAdmin extends AbstractAdmin
+use \Sonata\UserBundle\Admin\Model\UserAdmin as BaseAdmin;
+
+class UserAdmin extends BaseAdmin
 {
     /**
      * @param DatagridMapper $datagridMapper
@@ -54,8 +56,7 @@ class UserAdmin extends AbstractAdmin
             ->add('gplusData')
             ->add('token')
             ->add('twoStepVerificationCode')
-            ->add('id')
-        ;
+            ->add('id');
     }
 
     /**
@@ -64,54 +65,27 @@ class UserAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('username')
-            ->add('usernameCanonical')
-            ->add('email')
-            ->add('emailCanonical')
-            ->add('enabled')
-            ->add('salt')
-            ->add('password')
-            ->add('lastLogin')
-            ->add('locked')
-            ->add('expired')
-            ->add('expiresAt')
-            ->add('confirmationToken')
-            ->add('passwordRequestedAt')
-            ->add('roles')
-            ->add('credentialsExpired')
-            ->add('credentialsExpireAt')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('dateOfBirth')
+            ->add('id', 'text', array('label' => 'ID'))
             ->add('firstname')
             ->add('lastname')
-            ->add('website')
-            ->add('biography')
-            ->add('gender')
-            ->add('locale')
-            ->add('timezone')
-            ->add('phone')
-            ->add('facebookUid')
-            ->add('facebookName')
-            ->add('facebookData')
-            ->add('twitterUid')
-            ->add('twitterName')
-            ->add('twitterData')
-            ->add('gplusUid')
-            ->add('gplusName')
-            ->add('gplusData')
-            ->add('token')
-            ->add('twoStepVerificationCode')
-            ->add('id')
-            ->add('_action', null, array(
+            ->add('username', 'text', array('label' => 'Login'))
+            ->add('email', 'text', array('label' => 'email'))
+            ->add('enabled')
+            ->add('locked')
+            ->add('expired')
+            ->add('roles')
+            ->add('createdAt')
+            ->add('gender', 'string', array('label' => 'Civlité'))
+            ->add('phone', 'text', array('label' => 'Téléphone'))
+            ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
                     'delete' => array(),
-                ),
-            ))
-        ;
+                )
+            ));
     }
+
 
     /**
      * @param FormMapper $formMapper
@@ -120,32 +94,9 @@ class UserAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('username')
-            ->add('usernameCanonical')
             ->add('email')
-            ->add('emailCanonical')
+            ->add('plainPassword','text',array('required' => false,'label' => 'Mot de passe'))
             ->add('enabled')
-            ->add('salt')
-            ->add('password')
-            ->add('lastLogin')
-            ->add('locked')
-            ->add('expired')
-            ->add('expiresAt')
-            ->add('confirmationToken')
-            ->add('passwordRequestedAt')
-            ->add('roles')
-            ->add('credentialsExpired')
-            ->add('credentialsExpireAt')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('dateOfBirth')
-            ->add('firstname')
-            ->add('lastname')
-            ->add('website')
-            ->add('biography')
-            ->add('gender')
-            ->add('locale')
-            ->add('timezone')
-            ->add('phone')
         ;
     }
 
@@ -193,7 +144,6 @@ class UserAdmin extends AbstractAdmin
             ->add('gplusData')
             ->add('token')
             ->add('twoStepVerificationCode')
-            ->add('id')
-        ;
+            ->add('id');
     }
 }

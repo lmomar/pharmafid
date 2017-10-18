@@ -99,6 +99,6 @@ class PharmacieGroupe
 
     public function __toString()
     {
-        return $this->getNom();
+        return 'test';
     }
 }

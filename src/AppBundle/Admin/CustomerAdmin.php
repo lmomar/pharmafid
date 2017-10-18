@@ -2,14 +2,18 @@
 
 namespace AppBundle\Admin;
 
+use Application\Sonata\UserBundle\Entity\User;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-
-class CustomerAdmin extends AbstractAdmin
+use \Sonata\UserBundle\Admin\Model\UserAdmin as BaseAdmin;
+class CustomerAdmin extends BaseAdmin
 {
+
+
     /**
      * @param DatagridMapper $datagridMapper
      */
@@ -19,8 +23,11 @@ class CustomerAdmin extends AbstractAdmin
             ->add('id')
             ->add('sms')
             ->add('newsletter')
-            ->add('sexe')
-            ->add('creationDate')
+            ->add('sexe','doctrine_orm_string',array(),'choice',array('choices' => array('f' => 'Femme','m' => 'Homme')))
+            ->add('creationDate',null,array('label' => 'Crée le'))
+            ->add('user.username',null,array('label' => 'Login'))
+            ->add('user.email',null,array('label' => 'Email'))
+            ->add('pharmacie',null,array('label' => 'Pharmacie'))
         ;
     }
 
@@ -31,10 +38,15 @@ class CustomerAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
+            ->add('user.username')
+            ->add('user.email')
+            ->add('sexe',null,array('template' => 'AppBundle:default:sexe_field.html.twig'))
+            ->add('user.enabled',null,array('label' => 'Actif'))
+            ->add('user.dateOfBirth',null,array('label' => 'Née le'))
             ->add('sms')
             ->add('newsletter')
-            ->add('sexe')
-            ->add('creationDate')
+            ->add('pharmacie')
+            ->add('creationDate',null,array('label' => 'Crée le'))
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -50,12 +62,16 @@ class CustomerAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $data = new User();
+        if($this->getSubject()->getUser()){
+            $data = $this->getSubject()->getUser();
+        }
         $formMapper
-            ->add('id')
             ->add('sms')
             ->add('newsletter')
-            ->add('sexe')
-            ->add('user','sonata_type_admin')
+            ->add('sexe','choice',array('choices' => array('f' => 'Femme','m' => 'Homme')))
+            ->add('user','sonata_type_admin',array('data' => $data),array('admin_code' => 'application_sonata_user.admin.user'))
+            ->add('pharmacie')
         ;
     }
 
@@ -65,11 +81,38 @@ class CustomerAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
+            ->with('Personnel',array('class' => 'col-md-6'))
             ->add('id')
+            ->add('user.username',null,array('label' => 'Login'))
+            ->add('user.email',null,array('label' => 'Email'))
+            ->add('user.enabled',null,array('label' => 'Actif'))
+            ->add('user.dateOfBirth',null,array('label' => 'Née le'))
+            ->end()
+            ->with('Supplementaire',array('class' => 'col-md-6'))
             ->add('sms')
             ->add('newsletter')
             ->add('sexe')
             ->add('creationDate')
+            ->end()
         ;
     }
+
+    public function preUpdate($user)
+    {
+        //dump($user->getUser());die();
+        $this->getUserManager()->updateCanonicalFields($user->getUser());
+        $this->getUserManager()->updatePassword($user->getUser());
+    }
+
+    public function setUserManager(UserManagerInterface $userManager)
+    {
+        $this->userManager = $userManager;
+    }
+
+    public function getUserManager()
+    {
+        return $this->userManager;
+    }
+
+
 }
