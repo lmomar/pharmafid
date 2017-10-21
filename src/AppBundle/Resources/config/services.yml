@@ -56,3 +56,8 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Thèmes }
         public: true
+    pharmacien.coupon:
+        class: AppBundle\Admin\Pharmacien\CouponAdmin
+        arguments: [~, AppBundle\Entity\Coupon,~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Mes coupons }

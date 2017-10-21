@@ -104,24 +104,35 @@ sonata_admin:
                     - admin.customer
                     - admin.age_enfant
                     - admin.theme
+                roles: [ ROLE_SONATA_ADMIN ]
             user:
                 label: Utilisateurs
                 items:
                     - admin.user
+                roles: [ ROLE_SONATA_ADMIN ]
             pharmacie:
                 label:  Pharmacies
                 items:
                     - admin.pharmacie
                     - admin.pharmaciegroupe
+                roles: [ ROLE_SONATA_ADMIN ]
             Qcm:
                 label: Qcm
                 items:
                     - admin.qcm
                     - admin.question
+                roles: [ ROLE_SONATA_ADMIN ]
             Tablettes:
                 label: Tablettes
                 items:
                     - admin.tablette
+                roles: [ ROLE_SONATA_ADMIN ]
+            Pharmacien:
+                label: Promotions
+                items:
+                    - pharmacien.coupon
+                roles: [ ROLE_PHARMACIEN ]
+
 
 fos_user:
     db_driver:      orm # can be orm or odm

@@ -21,6 +21,8 @@ class PharmacieAdmin extends AbstractAdmin
             ;
     }
 
+
+
     protected function configureListFields(ListMapper $list)
     {
 
