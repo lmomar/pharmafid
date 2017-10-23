@@ -23,7 +23,8 @@ class TabletteAdmin extends AbstractAdmin
             ->add('modele')
             ->add('serie')
             ->add('etat')
-            ->add('pharmacie');
+            ->add('pharmacie')
+            ;
     }
 
     protected function configureListFields(ListMapper $list)
@@ -33,16 +34,17 @@ class TabletteAdmin extends AbstractAdmin
             ->add('marque')
             ->add('modele')
             ->addIdentifier('serie')
-            ->add('page','string',array('template' => 'AppBundle:CRUD:list_string.html.twig'))
+            ->add('page')
             ->add('etat')
             ->add('pharmacie')
             ->add('creationDate')
-            ->add('_action', null, array(
+            ->add('_action',null,array(
                 'actions' => array(
                     'edit' => array(),
                     'delete' => array()
                 )
-            ));
+            ))
+            ;
     }
 
     protected function configureFormFields(FormMapper $form)
@@ -51,6 +53,8 @@ class TabletteAdmin extends AbstractAdmin
             ->add('marque')
             ->add('modele')
             ->add('serie')
-            ->add('pharmacie');
+            ->add('pharmacie')
+            ;
     }
+
 }

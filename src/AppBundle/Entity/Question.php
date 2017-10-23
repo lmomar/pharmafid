@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +10,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Table(name="question")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\QuestionRepository")
- * @Assert\Callback(callback="validateFirstQuestion")
  */
 class Question
 {
@@ -245,3 +243,4 @@ class Question
         }
     }
 }
+

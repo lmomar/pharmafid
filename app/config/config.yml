@@ -10,7 +10,6 @@ imports:
 parameters:
     locale: fr
     pharmacies_images: '%kernel.root_dir%/web/uploads/pharmacies'
-    sonata.user.admin.user.class: AppBundle\Admin\UserAdmin
 
 
 framework:
@@ -66,9 +65,9 @@ doctrine:
             default:
                 auto_mapping: true
                 mappings:
-                    FOSUserBundle: ~
                     ApplicationSonataUserBundle: ~
                     SonataUserBundle: ~
+                    FOSUserBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -104,40 +103,30 @@ sonata_admin:
                     - admin.customer
                     - admin.age_enfant
                     - admin.theme
-                roles: [ ROLE_SONATA_ADMIN ]
             user:
                 label: Utilisateurs
                 items:
-                    - admin.user
-                roles: [ ROLE_SONATA_ADMIN ]
+                    - application_sonata_user.admin.user
             pharmacie:
                 label:  Pharmacies
                 items:
                     - admin.pharmacie
                     - admin.pharmaciegroupe
-                roles: [ ROLE_SONATA_ADMIN ]
             Qcm:
                 label: Qcm
                 items:
                     - admin.qcm
                     - admin.question
-                roles: [ ROLE_SONATA_ADMIN ]
             Tablettes:
                 label: Tablettes
                 items:
                     - admin.tablette
-                roles: [ ROLE_SONATA_ADMIN ]
-            Pharmacien:
-                label: Promotions
-                items:
-                    - pharmacien.coupon
-                roles: [ ROLE_PHARMACIEN ]
-
 
 fos_user:
     db_driver:      orm # can be orm or odm
     firewall_name:  main
     user_class:     Application\Sonata\UserBundle\Entity\User
+
 
     group:
         group_class:   Application\Sonata\UserBundle\Entity\Group
@@ -159,7 +148,7 @@ sonata_user:
         route:                page_slug
         parameters:           { path: / }
     class:                  # Entity Classes
-        user:               AppBundle\Entity\User
+        user:               Application\Sonata\UserBundle\Entity\User
         group:              Application\Sonata\UserBundle\Entity\Group
     admin:
         user:
@@ -214,3 +203,4 @@ sonata_user:
             handler:            sonata.user.profile.form.handler.default
             name:               sonata_user_profile_form
             validation_groups:  [Profile]
+
