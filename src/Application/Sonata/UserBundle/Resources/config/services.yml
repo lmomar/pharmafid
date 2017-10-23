@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 services:
     application_sonata_user.admin.user:
         class: Application\Sonata\UserBundle\Admin\UserAdmin
@@ -6,12 +5,4 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Utilisateurs }
         public: true
-=======
-services:
-    admin.user:
-        class: Application\Sonata\UserBundle\Admin\UserAdmin
-        arguments: [~, Application\Sonata\UserBundle\Entity\User, SonataAdminBundle:CRUD]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Utilisateurs }
-        public: true
->>>>>>> 0e186e13b1ed1f48f041f780cd1fd371cd2bab72
+
