@@ -64,3 +64,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Thèmes }
         public: true
+
+    admin.coupon:
+        class: AppBundle\Admin\CouponAdmin
+        arguments: [~, AppBundle\Entity\Coupon, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Coupons }
+        public: true

@@ -10,6 +10,7 @@ imports:
 parameters:
     locale: fr
     pharmacies_images: '%kernel.root_dir%/web/uploads/pharmacies'
+    pharmacies_images: '%kernel.root_dir%/web/uploads/coupons'
 
 
 framework:
@@ -82,6 +83,9 @@ vich_uploader:
         pharmacie_image:
             uri_prefix:         /uploads/pharmacies
             upload_destination: %kernel.root_dir%/../web/uploads/pharmacies
+        coupon_image:
+            uri_prefix:         /uploads/coupons
+            upload_destination: %kernel.root_dir%/../web/uploads/coupons
             namer:
                 service: vich_uploader.namer_hash
 sonata_block:
@@ -104,6 +108,10 @@ sonata_admin:
                     #- admin.customer2
                     - admin.age_enfant
                     - admin.theme
+            coupons:
+                label: Coupons
+                items:
+                    - admin.coupon
             user:
                 label: Utilisateurs
                 items:
