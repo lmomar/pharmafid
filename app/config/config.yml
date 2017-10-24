@@ -101,6 +101,7 @@ sonata_admin:
                 label: Consommateurs
                 items:
                     - admin.customer
+                    #- admin.customer2
                     - admin.age_enfant
                     - admin.theme
             user:
@@ -121,6 +122,8 @@ sonata_admin:
                 label: Tablettes
                 items:
                     - admin.tablette
+    #templates:
+        #show: AppBundle:CRUD:show.html.twig
 
 fos_user:
     db_driver:      orm # can be orm or odm
@@ -204,3 +207,8 @@ sonata_user:
             name:               sonata_user_profile_form
             validation_groups:  [Profile]
 
+sonata_doctrine_orm_admin:
+    templates:
+        types:
+            list:
+                user_roles: AppBundle:default:roles_field.html.twig

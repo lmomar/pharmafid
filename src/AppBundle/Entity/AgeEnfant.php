@@ -102,7 +102,7 @@ class AgeEnfant
 
     public function __toString()
     {
-        return $this->getType();
+        return (string)$this->getType();
     }
 }
 

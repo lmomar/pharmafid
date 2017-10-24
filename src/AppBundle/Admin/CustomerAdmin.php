@@ -40,7 +40,7 @@ class CustomerAdmin extends BaseAdmin
             ->add('id')
             ->add('user.username')
             ->add('user.email')
-            ->add('sexe',null,array('template' => 'AppBundle:default:sexe_field.html.twig'))
+            ->add('user.gender',null,array('template' => 'AppBundle:default:sexe_field.html.twig','label' => 'Sexe'))
             ->add('user.enabled',null,array('label' => 'Actif'))
             ->add('user.dateOfBirth',null,array('label' => 'Née le'))
             ->add('sms')
@@ -62,16 +62,21 @@ class CustomerAdmin extends BaseAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //dump($this->getSubject()->getUser()->getUsername());die();
         $data = new User();
         if($this->getSubject()->getUser()){
             $data = $this->getSubject()->getUser();
         }
         $formMapper
-            ->add('sms')
-            ->add('newsletter')
-            ->add('sexe','choice',array('choices' => array('f' => 'Femme','m' => 'Homme')))
-            ->add('user','sonata_type_admin',array('data' => $data),array('admin_code' => 'application_sonata_user.admin.user'))
-            ->add('pharmacie')
+            ->with('Informations personnelles',array('class' => 'col-md-6','box_class'   => 'box box-solid box-primary'))
+                ->add('user','sonata_type_admin',array('data' => $data,'label' => false),array('admin_code' => 'application_sonata_user.admin.customer_user'))
+
+            ->end()
+            ->with('Informations supplémentaires',array('class' => 'col-md-6','box_class'   => 'box box-solid box-primary'))
+                ->add('sms')
+                ->add('newsletter')
+                ->add('pharmacie',null,array('required' => true))
+            ->end()
         ;
     }
 
@@ -81,14 +86,14 @@ class CustomerAdmin extends BaseAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->with('Personnel',array('class' => 'col-md-6'))
+            ->with('Personnel',array('class' => 'col-md-6','box_class' => 'box box-solid box-primary'))
             ->add('id')
             ->add('user.username',null,array('label' => 'Login'))
             ->add('user.email',null,array('label' => 'Email'))
             ->add('user.enabled',null,array('label' => 'Actif'))
             ->add('user.dateOfBirth',null,array('label' => 'Née le'))
             ->end()
-            ->with('Supplementaire',array('class' => 'col-md-6'))
+            ->with('Supplementaire',array('class' => 'col-md-6','box_class' => 'box box-solid box-primary'))
             ->add('sms')
             ->add('newsletter')
             ->add('sexe')
@@ -113,6 +118,8 @@ class CustomerAdmin extends BaseAdmin
     {
         return $this->userManager;
     }
+
+
 
 
 }

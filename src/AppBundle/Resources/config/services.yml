@@ -35,6 +35,14 @@ services:
         calls:
             - [ setUserManager, [ '@fos_user.user_manager']]
         public: true
+#    admin.customer2:
+#        class: AppBundle\Admin\CustomerAdmin2
+#        arguments: [~, AppBundle\Entity\Customer, SonataAdminBundle:CRUD]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: admin, label: Consommateurs V2 }
+#        calls:
+#            - [ setUserManager, [ '@fos_user.user_manager']]
+#        public: true
 
     admin.reponse:
         class: AppBundle\Admin\ReponseAdmin

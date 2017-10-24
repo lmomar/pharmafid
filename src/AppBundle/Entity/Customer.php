@@ -46,12 +46,7 @@ class Customer
      */
     private $newsletter;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sexe", type="string", length=255)
-     */
-    private $sexe;
+
 
     /**
      * @ORM\Column(name="creation_date",type="datetime")
@@ -89,6 +84,23 @@ class Customer
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pharmacie")
      */
     private $pharmacie;
+
+    private $sexe;
+
+    /**
+     * @return mixed
+     */
+    public function getSexe()
+    {
+        if($this->getUser()->getGender() === 'm'){
+            return 'Homme';
+        }
+        else{
+            return 'Femme';
+        }
+    }
+
+
 
     /**
      * Get id
@@ -148,29 +160,7 @@ class Customer
         return $this->newsletter;
     }
 
-    /**
-     * Set sexe
-     *
-     * @param string $sexe
-     *
-     * @return Customer
-     */
-    public function setSexe($sexe)
-    {
-        $this->sexe = $sexe;
 
-        return $this;
-    }
-
-    /**
-     * Get sexe
-     *
-     * @return string
-     */
-    public function getSexe()
-    {
-        return $this->sexe;
-    }
 
     /**
      * Set user
