@@ -13,6 +13,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 class TabletteAdmin extends AbstractAdmin
 {
@@ -40,6 +41,7 @@ class TabletteAdmin extends AbstractAdmin
             ->add('creationDate')
             ->add('_action',null,array(
                 'actions' => array(
+                    'show' => array(),
                     'edit' => array(),
                     'delete' => array()
                 )
@@ -53,7 +55,21 @@ class TabletteAdmin extends AbstractAdmin
             ->add('marque')
             ->add('modele')
             ->add('serie')
+            ->add('pharmacie',null,array('required' => true))
+            ;
+    }
+
+    protected function configureShowFields(ShowMapper $show)
+    {
+        $show
+            ->add('id')
+            ->add('marque')
+            ->add('modele')
+            ->add('serie')
+            ->add('page')
+            ->add('etat')
             ->add('pharmacie')
+            ->add('creationDate')
             ;
     }
 

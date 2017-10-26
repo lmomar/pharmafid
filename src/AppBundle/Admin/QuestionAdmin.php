@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Form\Type\CollectionType;
 
 class QuestionAdmin extends AbstractAdmin
 {
@@ -26,33 +27,34 @@ class QuestionAdmin extends AbstractAdmin
             ->add('qcm')
             ->add('countReponses')
             ->add('creationDate')
-            ->add('_action',array(),array(
+            ->add('_action', array(), array(
                 'actions' => array(
                     'edit' => array(),
                     'show' => array('type_options' => array('class' => 'test')),
                     'delete' => array()
                 )
-            ))
-            ;
+            ));
     }
 
     protected function configureFormFields(FormMapper $form)
     {
+        //dump($this->getRoot()->getClass());die();
         $form
+            ->with('Question',array('box_class' => 'box box-solid box-primary'))
             ->add('question')
             ->add('isFirst')
-            ->add('qcm')
-            ->add('reponse','sonata_type_collection',
-                array(
-                    'by_reference' => false, // THIS IS WRONG!!!
-                    'type_options' => array(
-                        'delete' => true
-                    )
-                ),
+            ->add('qcm', 'sonata_type_model')
+            ->end()
+            ->with('Reponses',array('box_class' => 'box box-solid box-primary'))
+            ->add('reponse', 'sonata_type_collection', array(
+                'by_reference'       => false,
+                'required' => false,
+            ),
                 array(
                     'edit' => 'inline',
-                    'inline' => 'inline',
-                    'sortable'  => 'position',
+                    'inline' => 'table',
+                    'sortable' => 'position'
+                   // 'admin_code' => 'admin.reponse'
                 )
             )
             ->end()
@@ -71,11 +73,11 @@ class QuestionAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('question')
-            ->add('isFirst',array(),array('label' => 'Premiére question'))
-            ->add('reponse',array(),array('Les réponses'))
-            ->add('creationDate',array(),array('label' => 'Crée le'))
-            ->remove('add')
-            ;
+            ->add('isFirst', array(), array('label' => 'Premiére question'))
+            ->add('reponse', array(), array('Les réponses'))
+            ->add('creationDate', array(), array('label' => 'Crée le'))
+            ->remove('add');
     }
+
 
 }

@@ -5,6 +5,7 @@ namespace AppBundle\Admin;
 use Application\Sonata\UserBundle\Entity\User;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -118,6 +119,13 @@ class CustomerAdmin extends BaseAdmin
     {
         return $this->userManager;
     }
+
+    public function getExportFields()
+    {
+
+        return array('id','user.username','user.email');
+    }
+
 
 
 

@@ -22,13 +22,15 @@ class AppKernel extends Kernel
 
             new \Sonata\AdminBundle\SonataAdminBundle(),
             new \Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
-            new \Vich\UploaderBundle\VichUploaderBundle(),
+
 
             new \Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
             new \FOS\UserBundle\FOSUserBundle(),
             new \Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
             new \Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
+            new \Sonata\MediaBundle\SonataMediaBundle(),
+            new \Application\Sonata\MediaBundle\ApplicationSonataMediaBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

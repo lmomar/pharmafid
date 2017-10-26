@@ -41,19 +41,17 @@ class UserAdmin extends BaseAdmin
             ->add('lastname')
             ->add('username', 'text', array('label' => 'Login'))
             ->add('email', 'text', array('label' => 'email'))
-            ->add('enabled')
-            ->add('locked')
-            ->add('expired')
-            ->add('roles')
-            ->add('createdAt')
             ->add('filterGender', 'string', array('label' => 'Civlité'))
             ->add('phone', 'text', array('label' => 'Téléphone'))
+            ->add('enabled')
+            ->add('roles',null,array('template' => 'AppBundle:default:roles_list_field.html.twig'))
+            ->add('createdAt')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
-                    'delete' => array(),
-                )
+                    'delete' => array()
+                ),'label' => 'Actions'
             ));
     }
 
@@ -111,5 +109,7 @@ class UserAdmin extends BaseAdmin
         $query->setParameter('roles', '%ROLE_ADMIN%');
         return $query;
     }
+
+
 
 }

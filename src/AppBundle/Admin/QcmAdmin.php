@@ -23,7 +23,10 @@ class QcmAdmin extends AbstractAdmin
             ->add('titre', 'text')
             ->add('dateDebut', 'sonata_type_date_picker')
             ->add('dateFin', 'sonata_type_date_picker')
-            ->add('pharmacie');
+            ->add('choiceType', 'choice', array('mapped' => false, 'choices' => ['' => 'Choisir', '0' => 'Pharmacie', '1' => 'Groupe'], 'attr' => ['class' => 'choicetype_groupephar']))
+            ->add('pharmacie', 'sonata_type_model', array('attr' => ['class' => 'choice-pharmacie'], 'required' => false))
+            ->add('pharmacieGroupe', null, array('label' => 'Groupe', 'attr' => ['class' => 'choice-groupe']))
+            ;
     }
 
     protected function configureListFields(ListMapper $list)
@@ -49,6 +52,7 @@ class QcmAdmin extends AbstractAdmin
         $filter
             ->add('titre')
             ->add('pharmacie')
+            ->add('pharmacieGroupe')
             ;
     }
 
@@ -60,6 +64,7 @@ class QcmAdmin extends AbstractAdmin
             ->add('dateDebut', 'date')
             ->add('dateFin', 'date')
             ->add('pharmacie')
+            ->add('pharmacieGroupe',null,array('label' => 'Groupe'))
             ->add('creationDate')
             ;
     }

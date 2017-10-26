@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -16,6 +17,7 @@ class Question
     public function __construct()
     {
         $this->creationDate = new \DateTime();
+        $this->reponse = new ArrayCollection();
     }
 
     /**
@@ -72,10 +74,44 @@ class Question
     }
 
 
+
+
+    public function __toString()
+    {
+        return (string) $this->getQuestion();
+    }
+    /**
+     * @param ExecutionContextInterface $context
+     * @param $payload
+     * @Assert\Callback()
+     */
+    public function validateFirstQuestion(ExecutionContextInterface $context){
+        $questions = $this->getQcm()->getQuestions();
+        $questionFound= array();
+        //var_dump($questions);die();
+        foreach ($questions as $q){
+            if($q->isFirst){
+                $questionFound = $q;
+                var_dump($q->getId());die();
+                break;
+            }
+        }
+        //var_dump($this->getId());die();
+        //var_dump($questionFound->getId());die();
+        if($this->getIsFirst() && !empty($questionFound) && $questionFound->getId() !== $this->getId()){
+            $context->buildViolation('La question ID:' . $questionFound->getId() . ' est la première question')
+                ->atPath('firstQuestion')
+                ->addViolation()
+            ;
+        }
+    }
+
+
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -123,7 +159,7 @@ class Question
     /**
      * Get isFirst
      *
-     * @return bool
+     * @return boolean
      */
     public function getIsFirst()
     {
@@ -181,7 +217,7 @@ class Question
     /**
      * Add reponse
      *
-     * @param \AppBundle\Entity\Question $reponse
+     * @param \AppBundle\Entity\Reponse $reponse
      *
      * @return Question
      */
@@ -196,7 +232,7 @@ class Question
     /**
      * Remove reponse
      *
-     * @param \AppBundle\Entity\Question $reponse
+     * @param \AppBundle\Entity\Reponse $reponse
      */
     public function removeReponse(\AppBundle\Entity\Reponse $reponse)
     {
@@ -212,35 +248,4 @@ class Question
     {
         return $this->reponse;
     }
-
-    public function __toString()
-    {
-        return $this->getQuestion() ? $this->getQuestion() : '';
-    }
-    /**
-     * @param ExecutionContextInterface $context
-     * @param $payload
-     * @Assert\Callback()
-     */
-    public function validateFirstQuestion(ExecutionContextInterface $context){
-        $questions = $this->getQcm()->getQuestions();
-        $questionFound= array();
-        var_dump($questions);die();
-        foreach ($questions as $q){
-            if($q->isFirst){
-                $questionFound = $q;
-                var_dump($q->getId());die();
-                break;
-            }
-        }
-        //var_dump($this->getId());die();
-        var_dump($questionFound->getId());die();
-        if($this->getIsFirst() && !empty($questionFound) && $questionFound->getId() !== $this->getId()){
-            $context->buildViolation('La question ID:' . $questionFound->getId() . ' est la première question')
-                ->atPath('firstQuestion')
-                ->addViolation()
-            ;
-        }
-    }
 }
-

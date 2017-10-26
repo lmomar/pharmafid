@@ -8,6 +8,7 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
         SONATA:
             - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT
+
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
 

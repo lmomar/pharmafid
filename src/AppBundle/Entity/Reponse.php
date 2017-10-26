@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +16,7 @@ class Reponse
     public function __construct()
     {
         $this->creationDate = new \DateTime();
+        $this->childs = new ArrayCollection();
     }
 
     /**
@@ -41,7 +43,7 @@ class Reponse
     private $creationDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question",inversedBy="reponse")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question",inversedBy="reponse",cascade={"all"})
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
      */
 
@@ -172,6 +174,13 @@ class Reponse
         return $this->questionSuivante;
     }
 
+    
+
+    public function __toString()
+    {
+        return (string) $this->getValeur();
+    }
+
     /**
      * Set parentReponse
      *
@@ -205,7 +214,7 @@ class Reponse
      */
     public function addChild(\AppBundle\Entity\Reponse $child)
     {
-        $child->setParentReponse($this);
+        //$child->setParentReponse($this);
         $this->childs[] = $child;
 
         return $this;
@@ -229,10 +238,5 @@ class Reponse
     public function getChilds()
     {
         return $this->childs;
-    }
-
-    public function __toString()
-    {
-        return $this->getValeur();
     }
 }
