@@ -5,4 +5,16 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Utilisateurs }
         public: true
+    application_sonata_user.admin.customer_user:
+        class: Application\Sonata\UserBundle\Admin\CustomerUserAdmin
+        arguments: [~, Application\Sonata\UserBundle\Entity\User, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Utilisateurs }
+        public: true
 
+    application_sonata_user.admin.group:
+        class: Application\Sonata\UserBundle\Admin\GroupAdmin
+        arguments: [~, Application\Sonata\UserBundle\Entity\Group, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Groupes }
+        public: true

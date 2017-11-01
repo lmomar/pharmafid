@@ -25,6 +25,11 @@ use Sonata\UserBundle\Entity\BaseGroup as BaseGroup;
  */
 class Group extends BaseGroup
 {
+    public function __construct($name, array $roles = array())
+    {
+        parent::__construct($name, $roles);
+    }
+
     /**
      * @var int $id
      */

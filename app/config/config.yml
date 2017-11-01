@@ -10,6 +10,7 @@ imports:
 parameters:
     locale: fr
     pharmacies_images: '%kernel.root_dir%/web/uploads/pharmacies'
+    pharmacies_images: '%kernel.root_dir%/web/uploads/coupons'
 
 
 framework:
@@ -40,6 +41,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - 'SonataCoreBundle:Form:datepicker.html.twig'
+    globals:
+      container: '@service_container'
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -68,6 +71,8 @@ doctrine:
                     ApplicationSonataUserBundle: ~
                     SonataUserBundle: ~
                     FOSUserBundle: ~
+                    ApplicationSonataMediaBundle: ~
+                    SonataMediaBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -76,14 +81,7 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
-vich_uploader:
-    db_driver: orm
-    mappings:
-        pharmacie_image:
-            uri_prefix:         /uploads/pharmacies
-            upload_destination: %kernel.root_dir%/../web/uploads/pharmacies
-            namer:
-                service: vich_uploader.namer_hash
+
 sonata_block:
     default_contexts: [cms]
     blocks:
@@ -95,32 +93,97 @@ sonata_block:
             contexts: [admin]
 sonata_admin:
     title: Administration
+    assets:
+        stylesheets:
+            - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
+            - bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css
+            - bundles/sonatacore/vendor/ionicons/css/ionicons.min.css
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/AdminLTE.min.css
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-black.min.css
+            - bundles/sonataadmin/vendor/iCheck/skins/square/blue.css
+            - bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css
+            - bundles/sonataadmin/vendor/jqueryui/themes/base/jquery-ui.css
+            - bundles/sonatacore/vendor/select2/select2.css
+            - bundles/sonatacore/vendor/select2-bootstrap-css/select2-bootstrap.min.css
+            - bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css
+            - bundles/sonataadmin/css/styles.css
+            - bundles/sonataadmin/css/layout.css
+            - bundles/sonataadmin/css/tree.css
+            - /css/styles.css
+        javascripts:
+            # Defaults:
+            - bundles/sonatacore/vendor/jquery/dist/jquery.min.js
+            - bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.min.js
+            - bundles/sonatacore/vendor/moment/min/moment.min.js
+            - bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js
+            - bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js
+            - bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js
+            - bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js
+            - bundles/sonataadmin/vendor/jquery-form/jquery.form.js
+            - bundles/sonataadmin/jquery/jquery.confirmExit.js
+            - bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js
+            - bundles/sonatacore/vendor/select2/select2.min.js
+            - bundles/sonataadmin/vendor/admin-lte/dist/js/app.min.js
+            - bundles/sonataadmin/vendor/iCheck/icheck.min.js
+            - bundles/sonataadmin/vendor/slimScroll/jquery.slimscroll.min.js
+            - bundles/sonataadmin/vendor/waypoints/lib/jquery.waypoints.min.js
+            - bundles/sonataadmin/vendor/waypoints/lib/shortcuts/sticky.min.js
+            - bundles/sonataadmin/Admin.js
+            - bundles/sonataadmin/treeview.js
+            #new
+            - js/custom_js.js
     dashboard:
         groups:
-            customer:
-                label: Consommateurs
-                items:
-                    - admin.customer
-                    - admin.age_enfant
-                    - admin.theme
             user:
                 label: Utilisateurs
+                icon: '<i class="fa fa-group"></i>'
                 items:
                     - application_sonata_user.admin.user
+                    - application_sonata_user.admin.group
+            customer:
+                label: Consommateurs
+                icon: '<i class="fa fa-user"></i>'
+                items:
+                    - admin.customer
+                    #- admin.customer2
+                    - admin.age_enfant
+                    - admin.theme
+            coupons:
+                label: Coupons
+                icon: '<i class="fa fa-product-hunt" aria-hidden="true"></i>'
+                items:
+                    - admin.coupon
             pharmacie:
                 label:  Pharmacies
+                icon: '<i class="fa fa-th-list"></i>'
                 items:
                     - admin.pharmacie
                     - admin.pharmaciegroupe
             Qcm:
                 label: Qcm
+                icon: '<i class="fa fa-question-circle"></i>'
                 items:
                     - admin.qcm
                     - admin.question
             Tablettes:
                 label: Tablettes
+                icon: '<i class="fa fa-tablet"></i>'
                 items:
                     - admin.tablette
+    security:
+        handler: sonata.admin.security.handler.acl
+        # acl security information
+        information:
+            PHARMACIEN:   [EDIT, LIST, CREATE, DELETE]
+            ADMIN:    [MASTER]
+        # permissions not related to an object instance and also to be available when objects do not exist
+        # the DELETE admin permission means the user is allowed to batch delete objects
+        admin_permissions: [CREATE, LIST, DELETE, UNDELETE, EXPORT, OPERATOR, MASTER]
+
+        # permission related to the objects
+        object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
+    #templates:
+        #show: AppBundle:CRUD:show.html.twig
 
 fos_user:
     db_driver:      orm # can be orm or odm
@@ -153,6 +216,8 @@ sonata_user:
     admin:
         user:
             class: Application\Sonata\UserBundle\Admin\UserAdmin
+        group:
+            class: Application\Sonata\UserBundle\Admin\GroupAdmin
     profile:
         default_avatar: 'bundles/sonatauser/default_avatar.png' # Default avatar displayed if user doesn't have one
         # As in SonataAdminBundle's dashboard
@@ -204,3 +269,50 @@ sonata_user:
             name:               sonata_user_profile_form
             validation_groups:  [Profile]
 
+sonata_doctrine_orm_admin:
+    templates:
+        types:
+            list:
+                user_roles: AppBundle:default:roles_field.html.twig
+
+sonata_media:
+    # if you don't use default namespace configuration
+    #class:
+    #    media: MyVendor\MediaBundle\Entity\Media
+    #    gallery: MyVendor\MediaBundle\Entity\Gallery
+    #    gallery_has_media: MyVendor\MediaBundle\Entity\GalleryHasMedia
+    db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr it is mandatory to choose one here
+    default_context: default # you need to set a context
+    contexts:
+        default:  # the default context is mandatory
+            providers:
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
+        coupon:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
+        pharmacie:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
+
+
+    cdn:
+        server:
+            path: /uploads/media # http://media.sonata-project.org/
+
+    filesystem:
+        local:
+            directory:  "%kernel.root_dir%/../web/uploads/media"
+            create:     false

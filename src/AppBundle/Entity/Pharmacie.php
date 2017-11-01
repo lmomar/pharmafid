@@ -11,7 +11,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @ORM\Table(name="pharmacie")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PharmacieRepository")
- * @Vich\Uploadable()
  */
 class Pharmacie
 {
@@ -19,7 +18,7 @@ class Pharmacie
     {
         $this->created = new \DateTime();
     }
-    const UPLOADS_PATH = '/uploads/pharmacies';
+
 
     /**
      * @var int
@@ -67,37 +66,11 @@ class Pharmacie
 
 
     /**
-     * @var string
-     * @ORM\Column(name="image",type="string")
+     * @ORM\OneToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media",cascade={"all"})
      */
     private $image;
 
 
-    /**
-     * @Vich\UploadableField(mapping="pharmacie_image",fileNameProperty="image")
-     */
-    private $imageFile;
-
-    public function setImageFile(File $image = null)
-    {
-        $this->imageFile = $image;
-
-        if ($image) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return File|null
-     */
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
 
 
     /**

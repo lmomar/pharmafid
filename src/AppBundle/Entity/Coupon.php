@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Coupon
@@ -18,6 +20,7 @@ class Coupon
         $this->dateDebut = new \DateTime();
         $this->dateFin = new \DateTime('+1 month');
     }
+
 
     /**
      * @var int
@@ -36,9 +39,7 @@ class Coupon
     private $titre;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255)
+     *@ORM\OneToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media",cascade={"all"})
      */
     private $image;
 
@@ -103,15 +104,8 @@ class Coupon
      * @ORM\JoinColumn(name="groupe_id",referencedColumnName="id")
      */
     private $pharmacieGroupe;
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+
+
 
     /**
      * Set titre
@@ -375,5 +369,10 @@ class Coupon
     public function getPharmacieGroupe()
     {
         return $this->pharmacieGroupe;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->getTitre();
     }
 }

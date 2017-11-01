@@ -65,6 +65,13 @@ class Qcm
     private $pharmacie;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PharmacieGroupe")
+     * @ORM\JoinColumn(name="pharmacie_groupe_id", referencedColumnName="id")
+     */
+
+    private $pharmacieGroupe;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question",mappedBy="qcm")
      */
 
@@ -237,5 +244,29 @@ class Qcm
     public function __toString()
     {
         return $this->getTitre()? $this->getTitre() : '';
+    }
+
+    /**
+     * Set pharmacieGroupe
+     *
+     * @param \AppBundle\Entity\PharmacieGroupe $pharmacieGroupe
+     *
+     * @return Qcm
+     */
+    public function setPharmacieGroupe(\AppBundle\Entity\PharmacieGroupe $pharmacieGroupe = null)
+    {
+        $this->pharmacieGroupe = $pharmacieGroupe;
+
+        return $this;
+    }
+
+    /**
+     * Get pharmacieGroupe
+     *
+     * @return \AppBundle\Entity\PharmacieGroupe
+     */
+    public function getPharmacieGroupe()
+    {
+        return $this->pharmacieGroupe;
     }
 }

@@ -39,4 +39,19 @@ class User extends BaseUser
     {
         return $this->id;
     }
+
+    public function filterGender(){
+        if($this->getGender() === 'm'){
+            return 'Homme';
+        }
+        elseif ($this->getGender() === 'f'){
+            return 'Femme';
+        }
+        else{
+            return '---';
+        }
+    }
+
+
+
 }

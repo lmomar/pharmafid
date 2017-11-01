@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+ {% block field %}
+
+     {% block field_value %}
+             {% if value is defined %}
+                     {% media value,'small' %}
+             {% endif %}
+     {% endblock %}
+ {% endblock field %}

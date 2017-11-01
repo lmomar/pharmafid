@@ -1,0 +1,8 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    {% if value is defined %}
+        <a href="#" class="image-thumbnail">
+            <img src="/uploads/coupons/{{ value }}" alt="">
+        </a>
+    {% endif %}
+{% endblock %}

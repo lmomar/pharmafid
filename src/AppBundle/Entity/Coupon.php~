@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Coupon
  *
  * @ORM\Table(name="coupon")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CouponRepository")
+ * @Vich\Uploadable()
  */
 class Coupon
 {
@@ -18,6 +20,7 @@ class Coupon
         $this->dateDebut = new \DateTime();
         $this->dateFin = new \DateTime('+1 month');
     }
+    const UPLOADS_PATH = '/uploads/coupons';
 
     /**
      * @var int
@@ -103,6 +106,11 @@ class Coupon
      * @ORM\JoinColumn(name="groupe_id",referencedColumnName="id")
      */
     private $pharmacieGroupe;
+
+    /**
+     * @Vich\UploadableField(mapping="pharmacie_image",fileNameProperty="image")
+     */
+    private $imageFile;
     /**
      * Get id
      *
@@ -351,5 +359,29 @@ class Coupon
     public function getPharmacie()
     {
         return $this->pharmacie;
+    }
+
+    /**
+     * Set pharmacieGroupe
+     *
+     * @param \AppBundle\Entity\PharmacieGroupe $pharmacieGroupe
+     *
+     * @return Coupon
+     */
+    public function setPharmacieGroupe(\AppBundle\Entity\PharmacieGroupe $pharmacieGroupe = null)
+    {
+        $this->pharmacieGroupe = $pharmacieGroupe;
+
+        return $this;
+    }
+
+    /**
+     * Get pharmacieGroupe
+     *
+     * @return \AppBundle\Entity\PharmacieGroupe
+     */
+    public function getPharmacieGroupe()
+    {
+        return $this->pharmacieGroupe;
     }
 }

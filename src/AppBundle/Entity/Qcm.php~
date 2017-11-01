@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Qcm
  *
@@ -46,6 +46,7 @@ class Qcm
      * @var \DateTime
      *
      * @ORM\Column(name="dateFin", type="datetime")
+     * @Assert\Expression("this.getDateFin() > this.getDateDebut()",message="La date de fin doit etre superieure à la date de début")
      */
     private $dateFin;
 
@@ -62,6 +63,13 @@ class Qcm
      */
 
     private $pharmacie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PharmacieGroupe")
+     * @ORM\JoinColumn(name="pharmacie_groupe_id", referencedColumnName="id")
+     */
+
+    private $pharmacieGroupe;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question",mappedBy="qcm")
@@ -231,5 +239,10 @@ class Qcm
     public function getQuestions()
     {
         return $this->questions;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitre()? $this->getTitre() : '';
     }
 }

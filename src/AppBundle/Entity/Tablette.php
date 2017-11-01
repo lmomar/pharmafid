@@ -258,6 +258,6 @@ class Tablette
 
     public function __toString()
     {
-        return $this->getSerie();
+        return (string)$this->getSerie();
     }
 }

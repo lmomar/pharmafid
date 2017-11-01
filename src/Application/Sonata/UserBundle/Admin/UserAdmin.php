@@ -19,44 +19,15 @@ class UserAdmin extends BaseAdmin
     {
         $datagridMapper
             ->add('username')
-            ->add('usernameCanonical')
             ->add('email')
-            ->add('emailCanonical')
             ->add('enabled')
-            ->add('salt')
-            ->add('password')
-            ->add('lastLogin')
             ->add('locked')
-            ->add('expired')
-            ->add('expiresAt')
-            ->add('confirmationToken')
-            ->add('passwordRequestedAt')
             ->add('roles')
-            ->add('credentialsExpired')
-            ->add('credentialsExpireAt')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('dateOfBirth')
             ->add('firstname')
             ->add('lastname')
-            ->add('website')
-            ->add('biography')
             ->add('gender')
-            ->add('locale')
-            ->add('timezone')
-            ->add('phone')
-            ->add('facebookUid')
-            ->add('facebookName')
-            ->add('facebookData')
-            ->add('twitterUid')
-            ->add('twitterName')
-            ->add('twitterData')
-            ->add('gplusUid')
-            ->add('gplusName')
-            ->add('gplusData')
-            ->add('token')
-            ->add('twoStepVerificationCode')
-            ->add('id');
+            ->add('phone');
     }
 
     /**
@@ -70,19 +41,17 @@ class UserAdmin extends BaseAdmin
             ->add('lastname')
             ->add('username', 'text', array('label' => 'Login'))
             ->add('email', 'text', array('label' => 'email'))
-            ->add('enabled')
-            ->add('locked')
-            ->add('expired')
-            ->add('roles')
-            ->add('createdAt')
-            ->add('gender', 'string', array('label' => 'Civlité'))
+            ->add('filterGender', 'string', array('label' => 'Civlité'))
             ->add('phone', 'text', array('label' => 'Téléphone'))
+            ->add('enabled')
+            ->add('roles',null,array('template' => 'AppBundle:default:roles_list_field.html.twig'))
+            ->add('createdAt')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
-                    'delete' => array(),
-                )
+                    'delete' => array()
+                ),'label' => 'Actions'
             ));
     }
 
@@ -93,11 +62,22 @@ class UserAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('username')
-            ->add('email')
-            ->add('plainPassword','text',array('required' => false,'label' => 'Mot de passe'))
-            ->add('enabled')
-        ;
+            ->with('Genéral', array('class' => 'col-md-6'))
+                ->add('firstname', null, array('label' => 'Nom', 'required' => true))
+                ->add('lastname', null, array('label' => 'Prénom', 'required' => true))
+                ->add('phone')
+                ->add('username')
+                ->add('email')
+                ->add('plainPassword', 'text', array('required' => false, 'label' => 'Mot de passe'))
+                ->add('dateOfBirth', 'date', array('label' => 'Née le', 'years' => range(1940, date('Y')), 'format' => 'd MMMM yyyy'))
+                ->add('gender', 'choice', array('choices' => array('m' => 'Homme', 'f' => 'Femme')))
+            ->end()
+            ->with('Complémentaires', array('class' => 'col-md-6'))
+                ->add('enabled')
+                ->add('roles','choice',['multiple' => true,'choices' => ['ROLE_ADMIN' => 'ADMIN','ROLE_PHARMACIEN' => 'PHARMACIEN']])
+            ->end()
+            ;
+
     }
 
     /**
@@ -107,43 +87,29 @@ class UserAdmin extends BaseAdmin
     {
         $showMapper
             ->add('username')
-            ->add('usernameCanonical')
             ->add('email')
-            ->add('emailCanonical')
             ->add('enabled')
-            ->add('salt')
-            ->add('password')
-            ->add('lastLogin')
             ->add('locked')
-            ->add('expired')
-            ->add('expiresAt')
-            ->add('confirmationToken')
-            ->add('passwordRequestedAt')
             ->add('roles')
-            ->add('credentialsExpired')
-            ->add('credentialsExpireAt')
             ->add('createdAt')
-            ->add('updatedAt')
             ->add('dateOfBirth')
             ->add('firstname')
             ->add('lastname')
-            ->add('website')
-            ->add('biography')
-            ->add('gender')
-            ->add('locale')
-            ->add('timezone')
+            ->add('filterGender')
             ->add('phone')
-            ->add('facebookUid')
-            ->add('facebookName')
-            ->add('facebookData')
-            ->add('twitterUid')
-            ->add('twitterName')
-            ->add('twitterData')
-            ->add('gplusUid')
-            ->add('gplusName')
-            ->add('gplusData')
-            ->add('token')
-            ->add('twoStepVerificationCode')
             ->add('id');
     }
+
+    public function createQuery($context = 'list')
+    {
+        $query = parent::createQuery($context);
+        $query->where(
+            $query->expr()->like($query->getRootAlias() . '.roles', ':roles')
+        );
+        $query->setParameter('roles', '%ROLE_ADMIN%');
+        return $query;
+    }
+
+
+
 }

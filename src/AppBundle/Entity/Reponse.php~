@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +16,7 @@ class Reponse
     public function __construct()
     {
         $this->creationDate = new \DateTime();
+        $this->childs = new ArrayCollection();
     }
 
     /**
@@ -41,7 +43,7 @@ class Reponse
     private $creationDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question",inversedBy="reponse")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question",inversedBy="reponse",cascade={"all"})
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id")
      */
 
@@ -61,7 +63,7 @@ class Reponse
     private $parentReponse;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Reponse",mappedBy="parentReponse")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Reponse",mappedBy="parentReponse",cascade={"persist"})
      */
     private $childs;
 
@@ -172,27 +174,10 @@ class Reponse
         return $this->questionSuivante;
     }
 
-    /**
-     * Set parentReponse
-     *
-     * @param \AppBundle\Entity\Reponse $parentReponse
-     *
-     * @return Reponse
-     */
-    public function setParentReponse(\AppBundle\Entity\Reponse $parentReponse = null)
-    {
-        $this->parentReponse = $parentReponse;
+    
 
-        return $this;
-    }
-
-    /**
-     * Get parentReponse
-     *
-     * @return \AppBundle\Entity\Reponse
-     */
-    public function getParentReponse()
+    public function __toString()
     {
-        return $this->parentReponse;
+        return (string) $this->getValeur();
     }
 }

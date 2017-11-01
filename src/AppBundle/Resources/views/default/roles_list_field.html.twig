@@ -1,0 +1,8 @@
+{% extends "SonataAdminBundle:CRUD:base_list_field.html.twig" %}
+{% block field %}
+    {% if 'ROLE_ADMIN' in value %}
+        Admin
+    {% elseif 'ROLE_PHARMACIEN' in value %}
+        Pharmacien
+    {% endif %}
+{% endblock %}
